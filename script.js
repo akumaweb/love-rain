@@ -76,8 +76,8 @@ const spawnRainPhrase = () => {
     ? (Math.random() * (isMobileViewport() ? 1.1 : 1.9)).toFixed(2)
     : "0";
   const alpha = isMobileViewport()
-    ? (0.4 + Math.random() * 0.2).toFixed(2)
-    : (0.68 + Math.random() * 0.28).toFixed(2);
+    ? (0.44 + Math.random() * 0.18).toFixed(2)
+    : (0.64 + Math.random() * 0.22).toFixed(2);
   const rotation = `${(-6 + Math.random() * 12).toFixed(2)}deg`;
 
   phrase.className = `rain-phrase${useHeart ? " is-heart" : ""}`;
@@ -90,7 +90,7 @@ const spawnRainPhrase = () => {
   phrase.style.setProperty("--blur", `${blur}px`);
   phrase.style.setProperty("--alpha", alpha);
   phrase.style.setProperty("--rotate", rotation);
-  phrase.style.zIndex = "1";
+  phrase.style.zIndex = Math.random() < 0.2 ? "3" : "5";
 
   loveRainStage.appendChild(phrase);
   phrase.addEventListener("animationend", () => {

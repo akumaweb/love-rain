@@ -108,7 +108,7 @@ img {
 }
 
 .love-rain-stage {
-  z-index: 2;
+  z-index: 4;
   pointer-events: none;
 }
 
@@ -128,6 +128,17 @@ img {
   animation: floatPhoto var(--float-duration, 8s) ease-in-out infinite alternate;
 }
 
+.memory-video-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 0.5rem;
+  background: rgba(255, 247, 251, 0.92);
+  box-shadow: var(--shadow);
+  opacity: 0.98;
+  animation: floatPhoto var(--float-duration, 8s) ease-in-out infinite alternate;
+}
+
 .memory-photo::after {
   content: "";
   position: absolute;
@@ -137,22 +148,39 @@ img {
   pointer-events: none;
 }
 
-.memory-photo img {
+.memory-photo img,
+.memory-video-card video {
   border-radius: 14px;
+}
+
+.memory-video-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.36);
+  pointer-events: none;
+}
+
+.memory-video-card video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .photo-a {
   top: 11%;
-  left: 7%;
-  width: min(21vw, 230px);
+  left: 8%;
+  width: min(18vw, 210px);
   aspect-ratio: 4 / 5;
   transform: rotate(-11deg);
   --float-duration: 8.5s;
 }
 
 .photo-b {
-  top: 17%;
-  left: 63%;
+  top: 14%;
+  left: 67%;
   width: min(16vw, 190px);
   aspect-ratio: 4 / 5;
   transform: rotate(8deg);
@@ -160,9 +188,9 @@ img {
 }
 
 .photo-c {
-  top: 57%;
-  left: 69%;
-  width: min(18vw, 210px);
+  top: 61%;
+  left: 70%;
+  width: min(17vw, 200px);
   aspect-ratio: 4 / 5;
   transform: rotate(-8deg);
   --float-duration: 9.2s;
@@ -170,38 +198,29 @@ img {
 
 .photo-d {
   top: 54%;
-  left: 11%;
-  width: min(18vw, 210px);
+  left: 9%;
+  width: min(16vw, 180px);
   aspect-ratio: 9 / 16;
   transform: rotate(9deg);
   --float-duration: 8.8s;
 }
 
 .photo-e {
-  top: 30%;
-  left: 36%;
-  width: min(17vw, 190px);
+  top: 18%;
+  left: 39%;
+  width: min(15vw, 170px);
   aspect-ratio: 9 / 16;
   transform: rotate(-5deg);
   --float-duration: 7.8s;
 }
 
 .photo-f {
-  top: 72%;
-  left: 39%;
-  width: min(15vw, 170px);
+  top: 58%;
+  left: 41%;
+  width: min(17vw, 190px);
   aspect-ratio: 9 / 16;
   transform: rotate(7deg);
   --float-duration: 9.8s;
-}
-
-.photo-g {
-  top: 34%;
-  left: 80%;
-  width: min(13vw, 160px);
-  aspect-ratio: 9 / 16;
-  transform: rotate(11deg);
-  --float-duration: 8.1s;
 }
 
 .rain-phrase {
@@ -304,49 +323,42 @@ img {
 .photo-d { --tilt-start: 7deg; --tilt-end: 12deg; }
 .photo-e { --tilt-start: -7deg; --tilt-end: -2deg; }
 .photo-f { --tilt-start: 5deg; --tilt-end: 10deg; }
-.photo-g { --tilt-start: 9deg; --tilt-end: 14deg; }
 
 @media (max-width: 900px) {
   .photo-a {
-    top: 10%;
-    left: 3%;
-    width: 27vw;
+    top: 11%;
+    left: 5%;
+    width: 23vw;
   }
 
   .photo-b {
-    top: 14%;
-    left: 65%;
+    top: 13%;
+    left: 68%;
     width: 23vw;
   }
 
   .photo-c {
-    top: 58%;
-    left: 66%;
+    top: 63%;
+    left: 67%;
     width: 25vw;
   }
 
   .photo-d {
-    top: 49%;
-    left: 2%;
-    width: 26vw;
+    top: 53%;
+    left: 6%;
+    width: 22vw;
   }
 
   .photo-e {
-    top: 31%;
-    left: 36%;
-    width: 24vw;
-  }
-
-  .photo-f {
-    top: 74%;
-    left: 37%;
+    top: 19%;
+    left: 39%;
     width: 21vw;
   }
 
-  .photo-g {
-    top: 33%;
-    left: 80%;
-    width: 17vw;
+  .photo-f {
+    top: 59%;
+    left: 40%;
+    width: 21vw;
   }
 }
 
@@ -365,55 +377,54 @@ img {
     height: 18rem;
   }
 
-  .memory-photo {
+  .memory-photo,
+  .memory-video-card {
     border-radius: 16px;
     padding: 0.35rem;
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
   }
 
   .memory-photo::after,
-  .memory-photo img {
+  .memory-video-card::after,
+  .memory-photo img,
+  .memory-video-card video {
     border-radius: 12px;
   }
 
   .photo-a {
-    top: 10%;
+    top: 11%;
     left: 6%;
-    width: 33vw;
+    width: 29vw;
   }
 
   .photo-b {
-    top: 16%;
+    top: 15%;
     left: 60%;
-    width: 28vw;
-  }
-
-  .photo-c {
-    top: 58%;
-    left: 63%;
-    width: 28vw;
-  }
-
-  .photo-d {
-    top: 58%;
-    left: 7%;
-    width: 27vw;
-  }
-
-  .photo-e {
-    top: 34%;
-    left: 38%;
     width: 25vw;
   }
 
-  .photo-f {
-    top: 79%;
-    left: 43%;
+  .photo-c {
+    top: 64%;
+    left: 61%;
+    width: 24vw;
+  }
+
+  .photo-d {
+    top: 60%;
+    left: 7%;
     width: 23vw;
   }
 
-  .photo-g {
-    display: none;
+  .photo-e {
+    top: 22%;
+    left: 39%;
+    width: 21vw;
+  }
+
+  .photo-f {
+    top: 73%;
+    left: 39%;
+    width: 22vw;
   }
 
   .rain-phrase {
