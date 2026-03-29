@@ -103,12 +103,12 @@ img {
 }
 
 .heart-stream {
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
 }
 
 .love-rain-stage {
-  z-index: 4;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -124,7 +124,7 @@ img {
   padding: 0.5rem;
   background: rgba(255, 247, 251, 0.92);
   box-shadow: var(--shadow);
-  opacity: 0.92;
+  opacity: 0.96;
   animation: floatPhoto var(--float-duration, 8s) ease-in-out infinite alternate;
 }
 
@@ -142,7 +142,7 @@ img {
 }
 
 .photo-a {
-  top: 10%;
+  top: 11%;
   left: 7%;
   width: min(21vw, 230px);
   aspect-ratio: 4 / 5;
@@ -151,8 +151,8 @@ img {
 }
 
 .photo-b {
-  top: 15%;
-  left: 61%;
+  top: 17%;
+  left: 63%;
   width: min(16vw, 190px);
   aspect-ratio: 4 / 5;
   transform: rotate(8deg);
@@ -160,8 +160,8 @@ img {
 }
 
 .photo-c {
-  top: 56%;
-  left: 70%;
+  top: 57%;
+  left: 69%;
   width: min(18vw, 210px);
   aspect-ratio: 4 / 5;
   transform: rotate(-8deg);
@@ -169,7 +169,7 @@ img {
 }
 
 .photo-d {
-  top: 52%;
+  top: 54%;
   left: 11%;
   width: min(18vw, 210px);
   aspect-ratio: 9 / 16;
@@ -178,8 +178,8 @@ img {
 }
 
 .photo-e {
-  top: 27%;
-  left: 34%;
+  top: 30%;
+  left: 36%;
   width: min(17vw, 190px);
   aspect-ratio: 9 / 16;
   transform: rotate(-5deg);
@@ -187,8 +187,8 @@ img {
 }
 
 .photo-f {
-  top: 68%;
-  left: 36%;
+  top: 72%;
+  left: 39%;
   width: min(15vw, 170px);
   aspect-ratio: 9 / 16;
   transform: rotate(7deg);
@@ -196,8 +196,8 @@ img {
 }
 
 .photo-g {
-  top: 30%;
-  left: 79%;
+  top: 34%;
+  left: 80%;
   width: min(13vw, 160px);
   aspect-ratio: 9 / 16;
   transform: rotate(11deg);
@@ -222,6 +222,7 @@ img {
   transform: translate3d(var(--x-start, 0), -16vh, 0) rotate(var(--rotate, 0deg));
   animation: fallPhrase var(--duration, 12s) linear forwards;
   will-change: transform, opacity;
+  mix-blend-mode: screen;
 }
 
 .rain-phrase.is-heart {
@@ -337,19 +338,23 @@ img {
   }
 
   .photo-f {
-    top: 72%;
-    left: 34%;
+    top: 74%;
+    left: 37%;
     width: 21vw;
   }
 
   .photo-g {
-    top: 30%;
-    left: 78%;
+    top: 33%;
+    left: 80%;
     width: 17vw;
   }
 }
 
 @media (max-width: 640px) {
+  .memory-stage {
+    min-height: 100svh;
+  }
+
   .orb-left {
     width: 16rem;
     height: 16rem;
@@ -363,6 +368,7 @@ img {
   .memory-photo {
     border-radius: 16px;
     padding: 0.35rem;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
   }
 
   .memory-photo::after,
@@ -371,48 +377,54 @@ img {
   }
 
   .photo-a {
-    top: 7%;
-    left: 4%;
-    width: 34vw;
+    top: 10%;
+    left: 6%;
+    width: 33vw;
   }
 
   .photo-b {
-    top: 12%;
-    left: 62%;
-    width: 30vw;
-  }
-
-  .photo-c {
-    top: 54%;
-    left: 63%;
-    width: 31vw;
-  }
-
-  .photo-d {
-    top: 48%;
-    left: 3%;
-    width: 31vw;
-  }
-
-  .photo-e {
-    top: 24%;
-    left: 34%;
+    top: 16%;
+    left: 60%;
     width: 28vw;
   }
 
-  .photo-f {
-    top: 74%;
-    left: 34%;
+  .photo-c {
+    top: 58%;
+    left: 63%;
+    width: 28vw;
+  }
+
+  .photo-d {
+    top: 58%;
+    left: 7%;
+    width: 27vw;
+  }
+
+  .photo-e {
+    top: 34%;
+    left: 38%;
     width: 25vw;
   }
 
+  .photo-f {
+    top: 79%;
+    left: 43%;
+    width: 23vw;
+  }
+
   .photo-g {
-    top: 31%;
-    left: 77%;
-    width: 18vw;
+    display: none;
   }
 
   .rain-phrase {
-    font-size: var(--size-mobile, 28px);
+    font-size: var(--size-mobile, 22px);
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, 0.78),
+      0 0 12px rgba(255, 158, 216, 0.72),
+      0 0 20px rgba(255, 108, 188, 0.46);
+  }
+
+  .rising-heart {
+    opacity: 0.78;
   }
 }
