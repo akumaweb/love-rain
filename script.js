@@ -1,5 +1,8 @@
 const loveRainStage = document.getElementById("love-rain-stage");
 const heartStream = document.getElementById("heart-stream");
+const music = document.getElementById("bg-music");
+
+const MUSIC_START_TIME = 0;
 
 const rainPhrases = [
   "anh yêu em",
@@ -20,6 +23,9 @@ const heartPhrases = ["❤", "❤", "❤", "♡"];
 let rainTimerId = null;
 let heartTimerId = null;
 let lastViewportMode = "";
+let musicReadyPromise = null;
+let autoplayRetryTimerId = null;
+let userGestureBound = false;
 
 const isMobileViewport = () => window.matchMedia("(max-width: 640px)").matches;
 
@@ -159,14 +165,171 @@ const stopEffects = () => {
   }
 };
 
+const updateMusicButton = () => {
+  if (!music) {
+    return;
+  }
+};
+
+const clearAutoplayRetry = () => {
+  if (!autoplayRetryTimerId) {
+    return;
+  }
+
+  window.clearTimeout(autoplayRetryTimerId);
+  autoplayRetryTimerId = null;
+};
+
+const ensureMusicReady = async () => {
+  if (!music) {
+    return;
+  }
+
+  if (music.readyState >= 1) {
+    return;
+  }
+
+  if (!musicReadyPromise) {
+    musicReadyPromise = new Promise((resolve) => {
+      const handleLoaded = () => {
+        music.removeEventListener("loadedmetadata", handleLoaded);
+        resolve();
+      };
+
+      music.addEventListener("loadedmetadata", handleLoaded);
+      music.load();
+    });
+  }
+
+  await musicReadyPromise;
+};
+
+const seekMusicToChorus = async () => {
+  if (!music) {
+    return;
+  }
+
+  await ensureMusicReady();
+
+  const targetTime = Math.min(MUSIC_START_TIME, Math.max((music.duration || MUSIC_START_TIME) - 1, 0));
+
+  if (Math.abs(music.currentTime - targetTime) < 0.5) {
+    return;
+  }
+
+  await new Promise((resolve) => {
+    const handleSeeked = () => {
+      music.removeEventListener("seeked", handleSeeked);
+      resolve();
+    };
+
+    music.addEventListener("seeked", handleSeeked, { once: true });
+    music.currentTime = targetTime;
+  });
+};
+
+const playMusic = async () => {
+  if (!music) {
+    return;
+  }
+
+  try {
+    await seekMusicToChorus();
+    await music.play();
+  } catch {
+    updateMusicButton();
+    return;
+  }
+
+  clearAutoplayRetry();
+  updateMusicButton();
+};
+
+const resumeMusic = async () => {
+  if (!music) {
+    return;
+  }
+
+  try {
+    await music.play();
+  } catch {
+    updateMusicButton();
+  }
+};
+
+const pauseMusic = () => {
+  if (!music) {
+    return;
+  }
+
+  music.pause();
+  updateMusicButton();
+};
+
+const scheduleAutoplayRetry = (delay = 3000) => {
+  if (!music || !music.paused) {
+    return;
+  }
+
+  clearAutoplayRetry();
+  autoplayRetryTimerId = window.setTimeout(() => {
+    void tryAutoplayMusic();
+  }, delay);
+};
+
+const tryAutoplayMusic = async () => {
+  if (!music || !music.paused) {
+    clearAutoplayRetry();
+    return;
+  }
+
+  try {
+    await playMusic();
+    return;
+  } catch {
+    updateMusicButton();
+  }
+
+  scheduleAutoplayRetry(3000);
+};
+
+if (music) {
+  music.volume = 0.9;
+  music.addEventListener("play", updateMusicButton);
+  music.addEventListener("pause", updateMusicButton);
+  music.addEventListener("ended", () => {
+    music.currentTime = MUSIC_START_TIME;
+  });
+  music.addEventListener("play", clearAutoplayRetry);
+  updateMusicButton();
+}
+
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     stopEffects();
+    pauseMusic();
+    clearAutoplayRetry();
     return;
   }
 
   startEffects();
+  void tryAutoplayMusic();
 });
+
+const bindGlobalMusicUnlock = () => {
+  if (userGestureBound) {
+    return;
+  }
+
+  userGestureBound = true;
+  const unlockMusic = () => {
+    void tryAutoplayMusic();
+  };
+
+  ["pointerdown", "touchstart", "click"].forEach((eventName) => {
+    document.addEventListener(eventName, unlockMusic, { passive: true });
+  });
+};
 
 window.addEventListener("resize", () => {
   const viewportMode = isMobileViewport() ? "mobile" : "desktop";
@@ -183,4 +346,7 @@ window.addEventListener("resize", () => {
 });
 
 lastViewportMode = isMobileViewport() ? "mobile" : "desktop";
+bindGlobalMusicUnlock();
 startEffects();
+void tryAutoplayMusic();
+scheduleAutoplayRetry(3000);
